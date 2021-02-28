@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31019.35
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnnoRokom.BDJobs.Web", "OnnoRokom.BDJobs.Web\OnnoRokom.BDJobs.Web.csproj", "{F6330829-3B43-4613-842E-87BB097B68C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{973E441F-F44E-40FC-A38A-1D7461B971FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnnoRokom.BDJobs.DAL", "Libraries\OnnoRokom.BDJobs.DAL\OnnoRokom.BDJobs.DAL.csproj", "{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{F6330829-3B43-4613-842E-87BB097B68C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6330829-3B43-4613-842E-87BB097B68C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6330829-3B43-4613-842E-87BB097B68C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D} = {973E441F-F44E-40FC-A38A-1D7461B971FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9484A84F-FF96-4BB6-90A8-1F65C1D97B66}
