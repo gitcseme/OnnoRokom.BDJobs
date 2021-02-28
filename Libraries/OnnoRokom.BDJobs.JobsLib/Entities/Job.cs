@@ -11,6 +11,7 @@ namespace OnnoRokom.BDJobs.JobsLib.Entities
     {
         public virtual string Title { get; set; }
         public virtual string Description { get; set; }
+        public virtual DateTime CreationDate { get; set; }
 
         public virtual Guid EmployerId { get; set; }
         public virtual IList<Candidate> Candidates { get; set; } = new List<Candidate>();
