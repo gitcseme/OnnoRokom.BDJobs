@@ -18,6 +18,7 @@ namespace OnnoRokom.BDJobs.JobsLib.Mappings
             Map(j => j.EmployerId).Not.Nullable();
             Map(j => j.Title).Length(70).Not.Nullable();
             Map(j => j.Description).Length(1000).Not.Nullable();
+            Map(j => j.CreationDate).Not.Nullable();
 
             HasManyToMany(j => j.Candidates)
                 .Cascade.All()

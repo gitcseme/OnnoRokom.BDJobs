@@ -19,14 +19,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
 
         public ActionResult Index()
         {
-            var job = new Job
-            {
-                Title = "Test Job",
-                Description = "This is testing job post",
-                EmployerId = new Guid("b1d9a435-688b-49ea-a555-56013ef065fd")
-            };
-
-            _jobService.Create(job);
+            
 
             return View();
         }
