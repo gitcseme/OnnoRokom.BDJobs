@@ -1,6 +1,8 @@
+using OnnoRokom.BDJobs.DAL.Helpers;
 using OnnoRokom.BDJobs.Web.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +19,9 @@ namespace OnnoRokom.BDJobs.Web
             {
                 _context.Database.Initialize(true);
             }
+
+            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            using (var tableCreatioinHelper = FNhibernateHelper.OpenSession(connectionString)) { }
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

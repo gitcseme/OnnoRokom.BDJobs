@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnnoRokom.BDJobs.DAL", "Libraries\OnnoRokom.BDJobs.DAL\OnnoRokom.BDJobs.DAL.csproj", "{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnnoRokom.BDJobs.JobsLib", "Libraries\OnnoRokom.BDJobs.JobsLib\OnnoRokom.BDJobs.JobsLib.csproj", "{DB86F9DC-BF6A-4C19-BE57-D3A62257FF55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,12 +25,17 @@ Global
 		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB86F9DC-BF6A-4C19-BE57-D3A62257FF55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB86F9DC-BF6A-4C19-BE57-D3A62257FF55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB86F9DC-BF6A-4C19-BE57-D3A62257FF55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB86F9DC-BF6A-4C19-BE57-D3A62257FF55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{31D7EDAE-AC85-4D8E-9296-CB0E15D0CD2D} = {973E441F-F44E-40FC-A38A-1D7461B971FB}
+		{DB86F9DC-BF6A-4C19-BE57-D3A62257FF55} = {973E441F-F44E-40FC-A38A-1D7461B971FB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9484A84F-FF96-4BB6-90A8-1F65C1D97B66}

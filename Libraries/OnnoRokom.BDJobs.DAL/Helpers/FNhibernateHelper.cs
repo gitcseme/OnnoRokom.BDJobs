@@ -14,7 +14,7 @@ namespace OnnoRokom.BDJobs.DAL.Helpers
         {
             var assemblies = new List<Assembly>()
             {
-                Assembly.Load("UOW_Repo.SchoolData")
+                Assembly.Load("OnnoRokom.BDJobs.JobsLib")
             };
 
             var sessionFactory = Fluently.Configure()
