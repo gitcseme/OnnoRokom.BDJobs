@@ -85,6 +85,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             return user.Email; // FullName
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpGet]
         public ActionResult CreateJobPost()
         {
@@ -93,6 +94,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Employer")]
         [HttpPost]
         public ActionResult CreateJobPost(CreateJobPostModel model)
         {
