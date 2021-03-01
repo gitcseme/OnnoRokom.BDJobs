@@ -49,5 +49,11 @@ namespace OnnoRokom.BDJobs.JobsLib.Services
         {
             return _jobUnitOfWork.JobRepository.GetAll();
         }
+
+        public void AddJobCandidate(Job job, Candidate candidate)
+        {
+            job.Candidates.Add(candidate);
+            _jobUnitOfWork.Save();
+        }
     }
 }

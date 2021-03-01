@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Integration.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 using OnnoRokom.BDJobs.DAL.Helpers;
 using OnnoRokom.BDJobs.JobsLib;
 using OnnoRokom.BDJobs.Web.Models;
@@ -18,13 +19,13 @@ namespace OnnoRokom.BDJobs.Web
     {
         protected void Application_Start()
         {
-            using (var _context = new ApplicationDbContext())
-            {
-                _context.Database.Initialize(true);
-            }
+            //using (var _context = new ApplicationDbContext())
+            //{
+            //    _context.Database.Initialize(true);
+            //}
 
-            string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            using (var tableCreatioinHelper = FNhibernateHelper.OpenSession(connectionString)) { }
+            //string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            //using (var tableCreatioinHelper = FNhibernateHelper.OpenSession(connectionString)) { }
 
 
             //// Autofac configuration

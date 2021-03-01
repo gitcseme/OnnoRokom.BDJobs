@@ -1,0 +1,42 @@
+﻿@model OnnoRokom.BDJobs.Web.Models.JobModels.JobPostViewModel
+
+@{
+    ViewBag.Title = "Job Details";
+}
+
+<h2>Job Details</h2>
+
+<div class="row">
+    <form method="post" action="/JobPost/ApplyToJob">
+        @Html.TextBoxFor(m => m.JobId, new { @class = "hidden" })
+        @Html.TextBoxFor(m => m.Title, new { @class = "hidden" })
+        @Html.TextBoxFor(m => m.Description, new { @class = "hidden" })
+        @Html.TextBoxFor(m => m.CreationDate, new { @class = "hidden" })
+        <div class="col-md-8 col-md-offset-2">
+            <div class="row">
+                <div class="col author-info">
+                    <h3>@Model.EmployerName</h3>
+                    <p>@Model.CreationDate</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col post-description">
+                    <p>@Model.Description</p>
+                </div>
+            </div>
+            <div class="row">
+
+                @if (Model.IsAlreadyApplied)
+                {
+                    <button type="button" class="btn btn-success btn-lg">Applied</button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-info btn-lg">Apply</button>
+                }
+
+            </div>
+        </div>
+
+    </form>
+</div>
