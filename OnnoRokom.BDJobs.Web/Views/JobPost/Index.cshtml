@@ -1,7 +1,45 @@
-﻿
+﻿@model OnnoRokom.BDJobs.Web.Models.JobModels.JobPostIndexModel
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Job-Posts";
 }
 
-<h2>Index</h2>
+<style>
+    .singlePost {
+        width: 100%;
+        padding: 3px 20px;
+        background-color: beige;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .author-info h3 {
+        margin: 0;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @foreach (var post in Model.JobPosts)
+        {
+            <div class="singlePost">
+                <div class="row">
+                    <div class="col author-info">
+                        <h3>@post.EmployerName</h3>
+                        <p>@post.CreationDate</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col post-description">
+                        <p>@post.Description</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <a href="#" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
