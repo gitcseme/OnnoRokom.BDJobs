@@ -12,6 +12,19 @@ namespace OnnoRokom.BDJobs.Web.Models
         public string FullName { get; set; }
         public string Image { get; set; }
 
+        public ApplicationUser()
+        {
+
+        }
+
+        public ApplicationUser(string Email, string FullName, string UserName, string Image)
+        {
+            this.Email = Email;
+            this.FullName = FullName;
+            this.Image = Image;
+            this.UserName = UserName;
+        }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

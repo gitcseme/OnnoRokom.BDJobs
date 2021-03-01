@@ -7,8 +7,10 @@ using Microsoft.Owin.Security.DataProtection;
 using OnnoRokom.BDJobs.JobsLib;
 using OnnoRokom.BDJobs.Web.AutofacIdentityConfiguration;
 using OnnoRokom.BDJobs.Web.Models;
+using OnnoRokom.BDJobs.Web.Seed;
 using Owin;
 using System.Configuration;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -22,12 +24,14 @@ namespace OnnoRokom.BDJobs.Web
             var builder = new ContainerBuilder();
 
             // REGISTER DEPENDENCIES
-            builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
-            builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
-            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
-            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
-            builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
-            builder.Register<IDataProtectionProvider>(c => app.GetDataProtectionProvider()).InstancePerRequest();
+            builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerLifetimeScope();
+            builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerLifetimeScope();
+            builder.Register<IDataProtectionProvider>(c => app.GetDataProtectionProvider()).InstancePerLifetimeScope();
+
+            builder.RegisterType<Initializer>().AsSelf().InstancePerLifetimeScope();
 
             // REGISTER CONTROLLERS SO DEPENDENCIES ARE CONSTRUCTOR INJECTED
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
@@ -36,11 +40,23 @@ namespace OnnoRokom.BDJobs.Web
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             builder.RegisterModule(new JobModule(connectionString));
 
-            // BUILD THE CONTAINER
+            // BUILD THE CONTAINER SET DEPENDENCY RESOLVER AS AUTOFAC
             var container = builder.Build();
-
-            // REPLACE THE MVC DEPENDENCY RESOLVER WITH AUTOFAC
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+
+
+            // SEED & DATABASE CREATION
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var initializer = scope.Resolve<Initializer>();
+
+                //Task.Run(async () => await initializer.SeedAsync()).Wait();
+                initializer.SeedAsync().Wait();
+
+
+            }
+
+
 
             // REGISTER WITH OWIN
             app.UseAutofacMiddleware(container);
