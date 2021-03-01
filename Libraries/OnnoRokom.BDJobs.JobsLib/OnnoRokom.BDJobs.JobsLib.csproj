@@ -99,6 +99,7 @@
     <Compile Include="Services\JobService.cs" />
     <Compile Include="UnitOfWorks\IJobUnitOfWork.cs" />
     <Compile Include="UnitOfWorks\JobUnitOfWork.cs" />
+    <Compile Include="Utilities\GeneralUtilityMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OnnoRokom.BDJobs.DAL\OnnoRokom.BDJobs.DAL.csproj">

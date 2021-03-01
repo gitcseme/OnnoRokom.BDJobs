@@ -27,13 +27,13 @@ namespace OnnoRokom.BDJobs.Web
             using (var tableCreatioinHelper = FNhibernateHelper.OpenSession(connectionString)) { }
 
 
-            // Autofac configuration
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new JobModule(connectionString));
-            builder.RegisterControllers(typeof(MvcApplication).Assembly);
+            //// Autofac configuration
+            //var builder = new ContainerBuilder();
+            //builder.RegisterModule(new JobModule(connectionString));
+            //builder.RegisterControllers(typeof(MvcApplication).Assembly);
 
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            //var container = builder.Build();
+            //DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
 
             AreaRegistration.RegisterAllAreas();
