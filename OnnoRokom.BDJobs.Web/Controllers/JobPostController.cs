@@ -10,10 +10,12 @@ namespace OnnoRokom.BDJobs.Web.Controllers
     public class JobPostController : Controller
     {
         private IJobService _jobService { get; }
+        private readonly ApplicationUserManager _userManager;
 
-        public JobPostController(IJobService jobService)
+        public JobPostController(IJobService jobService, ApplicationUserManager userManager)
         {
             _jobService = jobService;
+            _userManager = userManager;
         }
 
         // GET: JobPost
