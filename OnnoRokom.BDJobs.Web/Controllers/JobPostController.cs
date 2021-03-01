@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using OnnoRokom.BDJobs.JobsLib.Entities;
 using OnnoRokom.BDJobs.JobsLib.Services;
+using OnnoRokom.BDJobs.JobsLib.Utilities;
 using OnnoRokom.BDJobs.Web.Models.JobModels;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace OnnoRokom.BDJobs.Web.Controllers
@@ -21,7 +23,25 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         // GET: JobPost
         public ActionResult Index()
         {
-            return View();
+            var model = new JobPostIndexModel
+            {
+                JobPosts = _jobService.GetAll().Select(j =>
+                     new JobPostViewModel {
+                        Title = j.Title,
+                        Description = j.Description.Length > 30 ? j.Description.Substring(0, 30) + "..." : j.Description,
+                        CreationDate = GeneralUtilityMethods.GetFormattedDate(j.CreationDate),
+                        EmployerName = GetEmployerName(j.EmployerId)
+                     }
+                ).ToList()
+            };
+
+            return View(model);
+        }
+
+        private string GetEmployerName(Guid employerId)
+        {
+            var user = _userManager.FindById(employerId.ToString());
+            return user.Email; // FullName
         }
 
         [HttpGet]
