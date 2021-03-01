@@ -61,15 +61,19 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         [HttpPost]
         public ActionResult ApplyToJob(JobPostViewModel model)
         {
-            var loggedinUserId = User.Identity.GetUserId();
+            var loggedinUserId = new Guid(User.Identity.GetUserId());
 
             if (ModelState.IsValid)
             {
                 var job = _jobService.Get(new Guid(model.JobId));
-                var candidate = new Candidate
+                var candidate = _jobService.GetCandidate(loggedinUserId);
+                if (candidate == null)
                 {
-                    UserId = new Guid(loggedinUserId)
-                };
+                    candidate = new Candidate
+                    {
+                        UserId = loggedinUserId
+                    };
+                }
 
                 _jobService.AddJobCandidate(job, candidate);
 
@@ -82,7 +86,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         private string GetEmployerName(Guid employerId)
         {
             var user = _userManager.FindById(employerId.ToString());
-            return user.Email; // FullName
+            return user.FullName;
         }
 
         [Authorize(Roles = "Employer")]
@@ -111,6 +115,24 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             _jobService.Create(job);
 
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public ActionResult ViewAppliedJobs()
+        {
+            var loggedinUserId = User.Identity.GetUserId();
+
+            var model = _jobService.GetCandidateAppliedJobs(loggedinUserId).Select(job => new JobPostViewModel
+            {
+                JobId = job.Id.ToString(),
+                Title = job.Title,
+                Description = job.Description,
+                CreationDate = GeneralUtilityMethods.GetFormattedDate(job.CreationDate),
+                EmployerName = GetEmployerName(job.EmployerId),
+                IsAlreadyApplied = job.Candidates.Where(c => c.UserId.ToString() == loggedinUserId).Any()
+            }).ToList();
+
+            return View(model);
         }
     }
 }

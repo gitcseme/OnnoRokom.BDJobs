@@ -19,6 +19,8 @@ namespace OnnoRokom.BDJobs.Web.Seed
 
             adminUser = new ApplicationUser("admin@gmail.com", "Md. Kawsarul Alam", "admin@gmail.com", "no-image.jpg");
             employerUser = new ApplicationUser("employer@gmail.com", "Md. Ariful Islam", "employer@gmail.com", "no-image.jpg");
+            employerUser2 = new ApplicationUser("employer2@gmail.com", "Md. Mahin Hosen", "employer2@gmail.com", "no-image.jpg");
+
             adminRole = new IdentityRole("Admin");
             employerRole = new IdentityRole("Employer");
         }
@@ -26,7 +28,7 @@ namespace OnnoRokom.BDJobs.Web.Seed
         public ApplicationUserManager _userManager { get; }
         public ApplicationDbContext _dbContext { get; }
 
-        private ApplicationUser adminUser, employerUser;
+        private ApplicationUser adminUser, employerUser, employerUser2;
         private IdentityRole adminRole, employerRole;
 
         public async Task SeedAsync()
@@ -35,7 +37,6 @@ namespace OnnoRokom.BDJobs.Web.Seed
 
             _dbContext.Database.Initialize(true);
             using (var tableCreatioinHelper = FNhibernateHelper.OpenSession(connectionString)) { }
-
 
             try
             {
@@ -54,7 +55,12 @@ namespace OnnoRokom.BDJobs.Web.Seed
                     await _dbContext.SaveChangesAsync();
                     await _userManager.AddToRoleAsync(employerUser.Id, employerRole.Name);
                 }
-                
+
+                result = await _userManager.CreateAsync(employerUser2, "Employer2$2021");
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(employerUser2.Id, employerRole.Name);
+                }
             }
             catch(Exception ex)
             {

@@ -22,3 +22,18 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.col-md-2.left-side-bar {
+    background-color: black;
+    height: auto;
+    padding: 10px 20px;
+}
+
+.left-side-bar h4 {
+    color: white;
+    font-weight: 800;
+}
+
+.left-side-bar a {
+    margin: 10px 0;
+}

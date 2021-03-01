@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -31,10 +31,32 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+        <div class="row">
+            <div class="col-md-2 left-side-bar">
+                <div class="row">
+                    <h4>User Pannel</h4>
+                </div>
+                @if (Request.IsAuthenticated)
+                {
+                    <div class="row">
+                        <a href="/jobPost/ViewAppliedJobs" class="btn btn-primary">Applied Jobs</a>
+                    </div>
+
+                    if (this.User.IsInRole("Employer"))
+                    {
+                        <div class="row">
+                            <a href="/jobPost/ViewAppliedCandidates" class="btn btn-primary">Applied Jobs</a>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="col-md-10">
+                @RenderBody()
+            </div>
+        </div>
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - OnnoRokom.BDJobs.com</p>
         </footer>
     </div>
 
