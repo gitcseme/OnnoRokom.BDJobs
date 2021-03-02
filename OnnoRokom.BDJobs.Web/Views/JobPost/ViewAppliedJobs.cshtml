@@ -1,7 +1,7 @@
-﻿@model OnnoRokom.BDJobs.Web.Models.JobModels.JobPostIndexModel
+﻿@model List<OnnoRokom.BDJobs.Web.Models.JobModels.JobPostViewModel>
 
 @{
-    ViewBag.Title = "Job-Posts";
+    ViewBag.Title = "Applied Jobs";
 }
 
 <style>
@@ -16,19 +16,19 @@
     .author-info h3 {
         margin: 0;
     }
-
 </style>
+
+<h2>My Applied Jobs</h2>
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        @foreach (var post in Model.JobPosts)
+        @foreach (var post in Model)
         {
             <div class="singlePost">
                 <div class="row">
                     <div class="col author-info">
                         <h3>@post.EmployerName</h3>
                         <p>@post.CreationDate</p>
-                        <h4 style="color: blue">@post.Title</h4>
                     </div>
                 </div>
                 <div class="row">

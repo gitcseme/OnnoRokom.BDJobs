@@ -52,8 +52,34 @@ namespace OnnoRokom.BDJobs.JobsLib.Services
 
         public void AddJobCandidate(Job job, Candidate candidate)
         {
-            job.Candidates.Add(candidate);
+            job.AddCandidate(candidate);
             _jobUnitOfWork.Save();
+        }
+
+        public List<Job> GetCandidateAppliedJobs(string userId)
+        {
+            return _jobUnitOfWork.CandidateRepository.GetCandidateAppliedJobs(userId);
+        }
+
+        public Candidate GetCandidate(Guid userId)
+        {
+            return _jobUnitOfWork.CandidateRepository.GetCandidate(userId);
+        }
+
+        public List<Job> GetEmployerJobsAndCandidates(string employerId)
+        {
+            return _jobUnitOfWork.JobRepository.GetEmployerJobsAndCandidates(employerId);
+        }
+
+        public void CreateInterView(Interview interview)
+        {
+            _jobUnitOfWork.InterviewRepository.Create(interview);
+            _jobUnitOfWork.Save();
+        }
+
+        public (bool, string) IsInterviewFixedAlready(Guid jobId, Guid userId)
+        {
+            return _jobUnitOfWork.InterviewRepository.IsInterviewFixedAlready(jobId, userId);
         }
     }
 }

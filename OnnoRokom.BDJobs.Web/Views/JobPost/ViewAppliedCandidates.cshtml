@@ -1,0 +1,60 @@
+﻿@model List<OnnoRokom.BDJobs.Web.Models.JobModels.JobPostViewModel>
+
+@{
+    ViewBag.Title = "Job Candidates";
+}
+
+<h2>Applied Candidates</h2>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @foreach (var post in Model)
+        {
+            <div class="job-post" style="margin: 10px; padding: 20px; background-color: blanchedalmond">
+                <div class="singlePost">
+                    <div class="row">
+                        <div class="col author-info">
+                            <h3>@post.EmployerName</h3>
+                            <p>@post.CreationDate</p>
+                            <h4 style="color: blue">@post.Title</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col post-description">
+                            <p>@post.Description</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <a href="/JobPost/ViewDetails?jobId=@post.JobId" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+                <div class="row applicant-container" style="margin-top: 10px">
+                    <div class="col-md-11 col-md-offset-1">
+                        <div class="row">
+                            <h4 style="color: blueviolet">Applicants</h4>
+                        </div>
+                        @foreach (var applicant in post.Applicants)
+                        {
+                            <div class="row" style="background-color: azure; margin: 10px; padding: 3px">
+                                <div class="col-md-8">
+                                    <p style="color: blue; font-weight: 800">@applicant.Name</p>
+                                </div>
+
+                                @if (applicant.IsInterviewFixed)
+                                {
+                                    <button type="button" class="btn btn-success" title="@applicant.InterviewTime">Interview Fixed</button>
+                                }
+                                else
+                                {
+                                    <div class="col">
+                                        <a href="/JobPost/FixInterview?jobId=@post.JobId&applicantId=@applicant.UserId" class="btn btn-primary btn-sm">Fix Interview</a>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

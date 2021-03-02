@@ -11,5 +11,11 @@ namespace OnnoRokom.BDJobs.JobsLib.Services
     public interface IJobService : IService<Job, Guid>
     {
         void AddJobCandidate(Job job, Candidate candidate);
+        List<Job> GetCandidateAppliedJobs(string userId);
+
+        Candidate GetCandidate(Guid userId);
+        List<Job> GetEmployerJobsAndCandidates(string employerId);
+        void CreateInterView(Interview interview);
+        (bool, string) IsInterviewFixedAlready(Guid jobId, Guid userId);
     }
 }

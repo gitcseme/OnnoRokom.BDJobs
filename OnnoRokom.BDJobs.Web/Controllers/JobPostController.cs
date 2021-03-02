@@ -4,6 +4,7 @@ using OnnoRokom.BDJobs.JobsLib.Services;
 using OnnoRokom.BDJobs.JobsLib.Utilities;
 using OnnoRokom.BDJobs.Web.Models.JobModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -58,18 +59,23 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult ApplyToJob(JobPostViewModel model)
         {
-            var loggedinUserId = User.Identity.GetUserId();
+            var loggedinUserId = new Guid(User.Identity.GetUserId());
 
             if (ModelState.IsValid)
             {
                 var job = _jobService.Get(new Guid(model.JobId));
-                var candidate = new Candidate
+                var candidate = _jobService.GetCandidate(loggedinUserId);
+                if (candidate == null)
                 {
-                    UserId = new Guid(loggedinUserId)
-                };
+                    candidate = new Candidate
+                    {
+                        UserId = loggedinUserId
+                    };
+                }
 
                 _jobService.AddJobCandidate(job, candidate);
 
@@ -82,7 +88,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         private string GetEmployerName(Guid employerId)
         {
             var user = _userManager.FindById(employerId.ToString());
-            return user.Email; // FullName
+            return user.FullName;
         }
 
         [Authorize(Roles = "Employer")]
@@ -112,5 +118,101 @@ namespace OnnoRokom.BDJobs.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [Authorize]
+        public ActionResult ViewAppliedJobs()
+        {
+            var loggedinUserId = User.Identity.GetUserId();
+
+            var model = _jobService.GetCandidateAppliedJobs(loggedinUserId).Select(job => new JobPostViewModel
+            {
+                JobId = job.Id.ToString(),
+                Title = job.Title,
+                Description = job.Description,
+                CreationDate = GeneralUtilityMethods.GetFormattedDate(job.CreationDate),
+                EmployerName = GetEmployerName(job.EmployerId),
+            }).ToList();
+
+            return View(model);
+        }
+
+        [Authorize(Roles = "Employer")]
+        public ActionResult ViewAppliedCandidates()
+        {
+            var loggedinUserId = User.Identity.GetUserId();
+
+            var model = _jobService.GetEmployerJobsAndCandidates(loggedinUserId).Select(job => new JobPostViewModel
+            {
+                JobId = job.Id.ToString(),
+                Title = job.Title,
+                Description = job.Description.Length > 30 ? job.Description.Substring(0, 30) + "..." : job.Description,
+                CreationDate = GeneralUtilityMethods.GetFormattedDate(job.CreationDate),
+                EmployerName = GetEmployerName(job.EmployerId),
+                Applicants = GetApplicants(job.Candidates.ToList(), job)
+            }).ToList();
+
+            return View(model);
+        }
+
+        private List<Applicant> GetApplicants(List<Candidate> Candidates, Job job)
+        {
+            List<Applicant> applicants = new List<Applicant>();
+            foreach (var candidate in Candidates)
+            {
+                var user = _userManager.FindById(candidate.UserId.ToString());
+                var interviewInfo = _jobService.IsInterviewFixedAlready(job.Id, candidate.UserId);
+
+                var applicant = new Applicant
+                {
+                    UserId = user.Id.ToString(),
+                    Name = user.FullName,
+                    IsInterviewFixed = interviewInfo.Item1,
+                    InterviewTime = interviewInfo.Item2
+                };
+
+                applicants.Add(applicant);
+            }
+
+            return applicants;
+        }
+
+        [Authorize(Roles = "Employer")]
+        [HttpGet]
+        public ActionResult FixInterview(string jobId, string applicantId)
+        {
+            var loggedinUserId = User.Identity.GetUserId();
+
+            var model = new CreateInterviewModel
+            {
+                JobId = jobId,
+                ApplicantId = applicantId,
+                EmployerId = loggedinUserId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Employer")]
+        public ActionResult FixInterview(CreateInterviewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var interview = new Interview
+                {
+                    JobId = new Guid(model.JobId),
+                    ApplicantId = new Guid(model.ApplicantId),
+                    EmployerId = new Guid(model.EmployerId),
+                    Time = model.Time
+                };
+
+                _jobService.CreateInterView(interview);
+
+                return RedirectToAction("ViewAppliedCandidates");
+            }
+
+            return View(model);
+        }
+
     }
 }
