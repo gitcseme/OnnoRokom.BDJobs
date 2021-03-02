@@ -22,5 +22,7 @@ namespace OnnoRokom.BDJobs.Web.Models.JobModels
     {
         public string UserId { get; set; }
         public string Name { get; set; }
+        public bool IsInterviewFixed { get; set; }
+        public string InterviewTime { get; set; }
     }
 }

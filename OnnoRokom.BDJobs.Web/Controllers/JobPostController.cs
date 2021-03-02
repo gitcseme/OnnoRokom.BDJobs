@@ -136,6 +136,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Employer")]
         public ActionResult ViewAppliedCandidates()
         {
             var loggedinUserId = User.Identity.GetUserId();
@@ -147,22 +148,26 @@ namespace OnnoRokom.BDJobs.Web.Controllers
                 Description = job.Description.Length > 30 ? job.Description.Substring(0, 30) + "..." : job.Description,
                 CreationDate = GeneralUtilityMethods.GetFormattedDate(job.CreationDate),
                 EmployerName = GetEmployerName(job.EmployerId),
-                Applicants = GetApplicants(job.Candidates.ToList())
+                Applicants = GetApplicants(job.Candidates.ToList(), job)
             }).ToList();
 
             return View(model);
         }
 
-        private List<Applicant> GetApplicants(List<Candidate> Candidates)
+        private List<Applicant> GetApplicants(List<Candidate> Candidates, Job job)
         {
             List<Applicant> applicants = new List<Applicant>();
             foreach (var candidate in Candidates)
             {
                 var user = _userManager.FindById(candidate.UserId.ToString());
+                var interviewInfo = _jobService.IsInterviewFixedAlready(job.Id, candidate.UserId);
+
                 var applicant = new Applicant
                 {
                     UserId = user.Id.ToString(),
-                    Name = user.FullName
+                    Name = user.FullName,
+                    IsInterviewFixed = interviewInfo.Item1,
+                    InterviewTime = interviewInfo.Item2
                 };
 
                 applicants.Add(applicant);
@@ -170,5 +175,44 @@ namespace OnnoRokom.BDJobs.Web.Controllers
 
             return applicants;
         }
+
+        [Authorize(Roles = "Employer")]
+        [HttpGet]
+        public ActionResult FixInterview(string jobId, string applicantId)
+        {
+            var loggedinUserId = User.Identity.GetUserId();
+
+            var model = new CreateInterviewModel
+            {
+                JobId = jobId,
+                ApplicantId = applicantId,
+                EmployerId = loggedinUserId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Employer")]
+        public ActionResult FixInterview(CreateInterviewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var interview = new Interview
+                {
+                    JobId = new Guid(model.JobId),
+                    ApplicantId = new Guid(model.ApplicantId),
+                    EmployerId = new Guid(model.EmployerId),
+                    Time = model.Time
+                };
+
+                _jobService.CreateInterView(interview);
+
+                return RedirectToAction("ViewAppliedCandidates");
+            }
+
+            return View(model);
+        }
+
     }
 }

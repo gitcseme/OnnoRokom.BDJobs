@@ -70,5 +70,16 @@ namespace OnnoRokom.BDJobs.JobsLib.Services
         {
             return _jobUnitOfWork.JobRepository.GetEmployerJobsAndCandidates(employerId);
         }
+
+        public void CreateInterView(Interview interview)
+        {
+            _jobUnitOfWork.InterviewRepository.Create(interview);
+            _jobUnitOfWork.Save();
+        }
+
+        public (bool, string) IsInterviewFixedAlready(Guid jobId, Guid userId)
+        {
+            return _jobUnitOfWork.InterviewRepository.IsInterviewFixedAlready(jobId, userId);
+        }
     }
 }
