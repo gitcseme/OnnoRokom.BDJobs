@@ -17,7 +17,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("OnnoRokom.BDJobs.com", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
@@ -32,7 +32,7 @@
     </div>
     <div class="container body-content">
         <div class="row">
-            <div class="col-md-2 left-side-bar">
+            <div class="col-md-3 left-side-bar">
                 <div class="row">
                     <h4>User Panel</h4>
                 </div>
@@ -42,15 +42,26 @@
                         <a href="/jobPost/ViewAppliedJobs" class="btn btn-primary">Applied Jobs</a>
                     </div>
 
+                    <div class="row">
+                        <a href="/JobPost/InterviewNotification" class="btn btn-primary">Notifications</a>
+                    </div>
+
                     if (this.User.IsInRole("Employer"))
                     {
                         <div class="row">
                             <a href="/jobPost/ViewAppliedCandidates" class="btn btn-primary">My Job Posts</a>
                         </div>
                     }
+
+                    if (this.User.IsInRole("Admin"))
+                    {
+                        <div class="row">
+                            <a href="Admin/Dashboard/Index" class="btn btn-primary">Admin Dashboard</a>
+                        </div>
+                    }
                 }
             </div>
-            <div class="col-md-10">
+            <div class="col-md-9">
                 @RenderBody()
             </div>
         </div>

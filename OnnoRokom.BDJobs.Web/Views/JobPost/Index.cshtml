@@ -20,7 +20,7 @@
 </style>
 
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-10 col-md-offset-1">
         @foreach (var post in Model.JobPosts)
         {
             <div class="singlePost">
@@ -28,7 +28,7 @@
                     <div class="col author-info">
                         <h3>@post.EmployerName</h3>
                         <p>@post.CreationDate</p>
-                        <h4 style="color: blue">@post.Title</h4>
+                        <h4>Looking for: <span style="color: blue">@post.Title</span> </h4>
                     </div>
                 </div>
                 <div class="row">

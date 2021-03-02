@@ -1,6 +1,7 @@
 ﻿using OnnoRokom.BDJobs.DAL;
 using OnnoRokom.BDJobs.JobsLib.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OnnoRokom.BDJobs.JobsLib.Repositories
@@ -9,6 +10,13 @@ namespace OnnoRokom.BDJobs.JobsLib.Repositories
     {
         public InterviewRepository(IDataContext dataContext) : base(dataContext)
         {
+        }
+
+        public List<Interview> GetUserInterviewNotification(string userId)
+        {
+            return _dataContext._session.Query<Interview>()
+                .Where(i => i.ApplicantId.ToString() == userId)
+                .ToList();
         }
 
         public (bool, string) IsInterviewFixedAlready(Guid jobId, Guid userId)

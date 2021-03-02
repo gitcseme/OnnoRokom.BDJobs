@@ -17,5 +17,6 @@ namespace OnnoRokom.BDJobs.JobsLib.Services
         List<Job> GetEmployerJobsAndCandidates(string employerId);
         void CreateInterView(Interview interview);
         (bool, string) IsInterviewFixedAlready(Guid jobId, Guid userId);
+        List<Interview> GetUserInterviewNotification(string userId);
     }
 }

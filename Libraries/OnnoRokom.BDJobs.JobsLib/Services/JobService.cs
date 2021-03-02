@@ -81,5 +81,10 @@ namespace OnnoRokom.BDJobs.JobsLib.Services
         {
             return _jobUnitOfWork.InterviewRepository.IsInterviewFixedAlready(jobId, userId);
         }
+
+        public List<Interview> GetUserInterviewNotification(string userId)
+        {
+            return _jobUnitOfWork.InterviewRepository.GetUserInterviewNotification(userId);
+        }
     }
 }

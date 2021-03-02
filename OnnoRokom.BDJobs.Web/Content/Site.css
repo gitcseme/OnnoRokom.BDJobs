@@ -18,13 +18,12 @@
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
-select,
-textarea {
-    max-width: 280px;
+select {
+    max-width: 300px;
 }
 
-.col-md-2.left-side-bar {
-    background-color: black;
+.col-md-3.left-side-bar {
+    background-color: #111;
     height: auto;
     padding: 10px 20px;
 }
@@ -36,4 +35,9 @@ textarea {
 
 .left-side-bar a {
     margin: 10px 0;
+}
+
+textarea#Description {
+    width: 500px;
+    height: 300px;
 }
