@@ -8,6 +8,7 @@ using OnnoRokom.BDJobs.JobsLib;
 using OnnoRokom.BDJobs.Web.AutofacIdentityConfiguration;
 using OnnoRokom.BDJobs.Web.Models;
 using OnnoRokom.BDJobs.Web.Seed;
+using OnnoRokom.BDJobs.Web.SerilogHelper;
 using Owin;
 using System.Configuration;
 using System.Threading.Tasks;
@@ -31,7 +32,11 @@ namespace OnnoRokom.BDJobs.Web
             builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerLifetimeScope();
             builder.Register<IDataProtectionProvider>(c => app.GetDataProtectionProvider()).InstancePerLifetimeScope();
 
+            // REGISTER DATABASE & TABLE & SEED PROVIDER
             builder.RegisterType<Initializer>().AsSelf().InstancePerLifetimeScope();
+
+            // REGISTER SERILOG
+            builder.RegisterType<Logger>().SingleInstance();
 
             // REGISTER CONTROLLERS SO DEPENDENCIES ARE CONSTRUCTOR INJECTED
             builder.RegisterControllers(typeof(MvcApplication).Assembly);
@@ -49,14 +54,13 @@ namespace OnnoRokom.BDJobs.Web
             using (var scope = container.BeginLifetimeScope())
             {
                 var initializer = scope.Resolve<Initializer>();
+                var _logger = scope.Resolve<Logger>().GetLogger;
 
                 //Task.Run(async () => await initializer.SeedAsync()).Wait();
                 initializer.SeedAsync().Wait();
 
-
+                _logger.Information("Application is Seeding ...");
             }
-
-
 
             // REGISTER WITH OWIN
             app.UseAutofacMiddleware(container);

@@ -9,35 +9,29 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OnnoRokom.BDJobs.Web.Models;
+using OnnoRokom.BDJobs.Web.SerilogHelper;
+using Serilog;
 
 namespace OnnoRokom.BDJobs.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        //private ApplicationSignInManager _signInManager;
-        //private ApplicationUserManager _userManager;
-
-        //public AccountController()
-        //{
-        //}
-
-        //public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
-        //{
-        //    UserManager = userManager;
-        //    SignInManager = signInManager;
-        //}
-
-
         private readonly ApplicationUserManager _userManager;
         private readonly ApplicationSignInManager _signInManager;
         private readonly IAuthenticationManager _authManager;
+        private ILogger _logger { get; }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IAuthenticationManager authManager)
+        public AccountController(
+            ApplicationUserManager userManager, 
+            ApplicationSignInManager signInManager, 
+            IAuthenticationManager authManager, 
+            Logger logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _authManager = authManager;
+            _logger = logger.GetLogger;
         }
 
 
@@ -65,32 +59,6 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             }
         }
 
-
-        //public ApplicationSignInManager SignInManager
-        //{
-        //    get
-        //    {
-        //        return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    }
-        //    private set 
-        //    { 
-        //        _signInManager = value; 
-        //    }
-        //}
-
-        //public ApplicationUserManager UserManager
-        //{
-        //    get
-        //    {
-        //        return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    }
-        //    private set
-        //    {
-        //        _userManager = value;
-        //    }
-        //}
-
-        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -194,13 +162,14 @@ namespace OnnoRokom.BDJobs.Web.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    _logger.Information($"{user.FullName} is registered at {DateTime.Now}");
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
@@ -440,26 +409,6 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         {
             return View();
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        if (_userManager != null)
-        //        {
-        //            _userManager.Dispose();
-        //            _userManager = null;
-        //        }
-
-        //        if (_signInManager != null)
-        //        {
-        //            _signInManager.Dispose();
-        //            _signInManager = null;
-        //        }
-        //    }
-
-        //    base.Dispose(disposing);
-        //}
 
         #region Helpers
         // Used for XSRF protection when adding external logins
