@@ -14,10 +14,13 @@ namespace OnnoRokom.BDJobs.JobsLib.UnitOfWorks
         {
             JobRepository = new JobRepository(_dataContext);
             CandidateRepository = new CandidateRepository(_dataContext);
+            InterviewRepository = new InterviewRepository(_dataContext);
         }
 
         public IJobRepository JobRepository { get; protected set; }
 
         public ICandidateRepository CandidateRepository { get; protected set; }
+
+        public IInterviewRepository InterviewRepository { get; protected set; }
     }
 }

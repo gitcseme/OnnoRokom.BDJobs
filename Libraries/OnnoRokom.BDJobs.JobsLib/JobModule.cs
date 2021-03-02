@@ -42,6 +42,10 @@ namespace OnnoRokom.BDJobs.JobsLib
                 .As<ICandidateRepository>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<InterviewRepository>()
+                .As<IInterviewRepository>()
+                .InstancePerLifetimeScope();
+
             base.Load(builder);
         }
     }

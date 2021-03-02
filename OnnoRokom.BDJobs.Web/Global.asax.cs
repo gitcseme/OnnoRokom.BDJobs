@@ -19,24 +19,6 @@ namespace OnnoRokom.BDJobs.Web
     {
         protected void Application_Start()
         {
-            //using (var _context = new ApplicationDbContext())
-            //{
-            //    _context.Database.Initialize(true);
-            //}
-
-            //string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            //using (var tableCreatioinHelper = FNhibernateHelper.OpenSession(connectionString)) { }
-
-
-            //// Autofac configuration
-            //var builder = new ContainerBuilder();
-            //builder.RegisterModule(new JobModule(connectionString));
-            //builder.RegisterControllers(typeof(MvcApplication).Assembly);
-
-            //var container = builder.Build();
-            //DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-
-
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

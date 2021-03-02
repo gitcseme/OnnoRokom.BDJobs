@@ -12,5 +12,6 @@ namespace OnnoRokom.BDJobs.JobsLib.UnitOfWorks
     {
         IJobRepository JobRepository { get; }
         ICandidateRepository CandidateRepository { get; }
+        IInterviewRepository InterviewRepository { get; }
     }
 }

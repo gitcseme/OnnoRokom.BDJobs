@@ -1,0 +1,30 @@
+﻿@model OnnoRokom.BDJobs.Web.Models.JobModels.CreateInterviewModel
+
+@{
+    ViewBag.Title = "Fix Interview";
+}
+
+<h2>Fix Interview</h2>
+
+<form method="post" action="/JobPost/FixInterview">
+    @Html.TextBoxFor(m => m.JobId, new { @class = "hidden" })
+    @Html.TextBoxFor(m => m.ApplicantId, new { @class = "hidden" })
+    @Html.TextBoxFor(m => m.EmployerId, new { @class = "hidden" })
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-success">Fix Interview</button>
+            </div>
+        </div>
+    </div>
+</form>
