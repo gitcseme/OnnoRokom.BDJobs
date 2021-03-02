@@ -23,8 +23,8 @@ textarea {
     max-width: 280px;
 }
 
-.col-md-2.left-side-bar {
-    background-color: black;
+.col-md-3.left-side-bar {
+    background-color: #111;
     height: auto;
     padding: 10px 20px;
 }

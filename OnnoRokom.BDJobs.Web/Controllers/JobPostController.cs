@@ -30,7 +30,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
                      new JobPostViewModel {
                          JobId = j.Id.ToString(),
                          Title = j.Title,
-                         Description = j.Description.Length > 30 ? j.Description.Substring(0, 30) + "..." : j.Description,
+                         Description = j.Description.Length > 100 ? j.Description.Substring(0, 100) + "..." : j.Description,
                          CreationDate = GeneralUtilityMethods.GetFormattedDate(j.CreationDate),
                          EmployerName = GetEmployerName(j.EmployerId)
                      }
@@ -214,5 +214,31 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
+        public ActionResult InterviewNotification()
+        {
+            var loggedinUserId = User.Identity.GetUserId();
+
+            var interviews = _jobService.GetUserInterviewNotification(loggedinUserId);
+            List<InterviewNotificationViewModel> model = new List<InterviewNotificationViewModel>();
+
+            foreach (var interview in interviews)
+            {
+                var job = _jobService.Get(interview.JobId);
+                var employer = _userManager.FindById(interview.EmployerId.ToString());
+
+                var interviewNotificationModel = new InterviewNotificationViewModel
+                {
+                    InterviewTime = interview.Time,
+                    JobTitle = job.Title,
+                    Description = job.Description,
+                    EmployerName = employer?.FullName
+                };
+
+                model.Add(interviewNotificationModel);
+            }
+
+            return View(model);
+        }
     }
 }
