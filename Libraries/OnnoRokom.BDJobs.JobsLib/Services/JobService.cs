@@ -65,5 +65,10 @@ namespace OnnoRokom.BDJobs.JobsLib.Services
         {
             return _jobUnitOfWork.CandidateRepository.GetCandidate(userId);
         }
+
+        public List<Job> GetEmployerJobsAndCandidates(string employerId)
+        {
+            return _jobUnitOfWork.JobRepository.GetEmployerJobsAndCandidates(employerId);
+        }
     }
 }
