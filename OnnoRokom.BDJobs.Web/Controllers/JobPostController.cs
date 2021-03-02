@@ -3,6 +3,8 @@ using OnnoRokom.BDJobs.JobsLib.Entities;
 using OnnoRokom.BDJobs.JobsLib.Services;
 using OnnoRokom.BDJobs.JobsLib.Utilities;
 using OnnoRokom.BDJobs.Web.Models.JobModels;
+using OnnoRokom.BDJobs.Web.SerilogHelper;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +16,13 @@ namespace OnnoRokom.BDJobs.Web.Controllers
     {
         private IJobService _jobService { get; }
         private readonly ApplicationUserManager _userManager;
+        private ILogger _logger { get; }
 
-        public JobPostController(IJobService jobService, ApplicationUserManager userManager)
+        public JobPostController(IJobService jobService, ApplicationUserManager userManager, Logger logger)
         {
             _jobService = jobService;
             _userManager = userManager;
+            _logger = logger.GetLogger;
         }
 
         // GET: JobPost
@@ -115,6 +119,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             };
 
             _jobService.Create(job);
+            _logger.Information($"A new job post is created at {DateTime.Now} with title {job.Title}");
 
             return RedirectToAction("Index");
         }
@@ -145,7 +150,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             {
                 JobId = job.Id.ToString(),
                 Title = job.Title,
-                Description = job.Description.Length > 30 ? job.Description.Substring(0, 30) + "..." : job.Description,
+                Description = job.Description.Length > 100 ? job.Description.Substring(0, 100) + "..." : job.Description,
                 CreationDate = GeneralUtilityMethods.GetFormattedDate(job.CreationDate),
                 EmployerName = GetEmployerName(job.EmployerId),
                 Applicants = GetApplicants(job.Candidates.ToList(), job)
@@ -207,6 +212,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
                 };
 
                 _jobService.CreateInterView(interview);
+                _logger.Information($"A interview is fixed at {interview.Time}");
 
                 return RedirectToAction("ViewAppliedCandidates");
             }

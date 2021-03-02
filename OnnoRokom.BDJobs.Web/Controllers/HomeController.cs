@@ -1,5 +1,7 @@
 ﻿using OnnoRokom.BDJobs.JobsLib.Entities;
 using OnnoRokom.BDJobs.JobsLib.Services;
+using OnnoRokom.BDJobs.Web.SerilogHelper;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +12,18 @@ namespace OnnoRokom.BDJobs.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public IJobService _jobService { get; }
+        private IJobService _jobService { get; }
+        private ILogger _logger { get; }
 
-        public HomeController(IJobService jobService)
+        public HomeController(IJobService jobService, Logger logger)
         {
             _jobService = jobService;
+            _logger = logger.GetLogger;
         }
 
         public ActionResult Index()
         {
-            
+            _logger.Information("Index page is loading...");
 
             return View();
         }
