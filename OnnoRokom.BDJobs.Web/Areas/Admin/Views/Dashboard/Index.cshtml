@@ -1,0 +1,60 @@
+﻿@model OnnoRokom.BDJobs.Web.Areas.Admin.Models.AdminDashboardViewModel
+
+@{
+    ViewBag.Title = "ADMIN DASHBOARD";
+}
+
+<style>
+    .col-md-3.user {
+        background-color: coral;
+        padding: 25px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    .col-md-3.post {
+        background-color: blueviolet;
+        padding: 25px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+
+    button.btn {
+        width: 70px;
+        float: right;
+        font-weight: 800;
+        font-size: x-large;
+    }
+
+    .user-text, .post-text {
+        color: azure;
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+</style>
+
+<h2>ADMIN DASHBOARD</h2>
+
+<div class="row">
+    <div class="col-md-3 user">
+        <div class="user-count">
+            <div class="row user-text">
+                Total Registered Users
+            </div>
+            <div class="row user-cnt">
+                <button class="btn btn-success">@Model.TotalUsers</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 post">
+        <div class="post-count">
+            <div class="row post-text">
+                Total Job Posts
+            </div>
+            <div class="row post-cnt">
+                <button class="btn btn-info">@Model.TotalJobPosts</button> 
+            </div>
+        </div>
+    </div>
+</div>
