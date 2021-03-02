@@ -10,5 +10,6 @@ namespace OnnoRokom.BDJobs.JobsLib.Repositories
 {
     public interface IJobRepository : IRepositoryBase<Job, Guid>
     {
+        List<Job> GetEmployerJobsAndCandidates(string employerId);
     }
 }

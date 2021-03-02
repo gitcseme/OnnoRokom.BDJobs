@@ -4,6 +4,7 @@ using OnnoRokom.BDJobs.JobsLib.Services;
 using OnnoRokom.BDJobs.JobsLib.Utilities;
 using OnnoRokom.BDJobs.Web.Models.JobModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -58,6 +59,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         public ActionResult ApplyToJob(JobPostViewModel model)
         {
@@ -129,10 +131,44 @@ namespace OnnoRokom.BDJobs.Web.Controllers
                 Description = job.Description,
                 CreationDate = GeneralUtilityMethods.GetFormattedDate(job.CreationDate),
                 EmployerName = GetEmployerName(job.EmployerId),
-                IsAlreadyApplied = job.Candidates.Where(c => c.UserId.ToString() == loggedinUserId).Any()
             }).ToList();
 
             return View(model);
+        }
+
+        public ActionResult ViewAppliedCandidates()
+        {
+            var loggedinUserId = User.Identity.GetUserId();
+
+            var model = _jobService.GetEmployerJobsAndCandidates(loggedinUserId).Select(job => new JobPostViewModel
+            {
+                JobId = job.Id.ToString(),
+                Title = job.Title,
+                Description = job.Description.Length > 30 ? job.Description.Substring(0, 30) + "..." : job.Description,
+                CreationDate = GeneralUtilityMethods.GetFormattedDate(job.CreationDate),
+                EmployerName = GetEmployerName(job.EmployerId),
+                Applicants = GetApplicants(job.Candidates.ToList())
+            }).ToList();
+
+            return View(model);
+        }
+
+        private List<Applicant> GetApplicants(List<Candidate> Candidates)
+        {
+            List<Applicant> applicants = new List<Applicant>();
+            foreach (var candidate in Candidates)
+            {
+                var user = _userManager.FindById(candidate.UserId.ToString());
+                var applicant = new Applicant
+                {
+                    UserId = user.Id.ToString(),
+                    Name = user.FullName
+                };
+
+                applicants.Add(applicant);
+            }
+
+            return applicants;
         }
     }
 }

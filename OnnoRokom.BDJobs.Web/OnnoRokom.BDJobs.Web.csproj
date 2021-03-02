@@ -295,6 +295,7 @@
     <Content Include="Views\JobPost\CreateJobPost.cshtml" />
     <Content Include="Views\JobPost\ViewDetails.cshtml" />
     <Content Include="Views\JobPost\ViewAppliedJobs.cshtml" />
+    <Content Include="Views\JobPost\ViewAppliedCandidates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

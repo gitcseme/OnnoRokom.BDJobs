@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-md-2 left-side-bar">
                 <div class="row">
-                    <h4>User Pannel</h4>
+                    <h4>User Panel</h4>
                 </div>
                 @if (Request.IsAuthenticated)
                 {
@@ -45,7 +45,7 @@
                     if (this.User.IsInRole("Employer"))
                     {
                         <div class="row">
-                            <a href="/jobPost/ViewAppliedCandidates" class="btn btn-primary">Applied Jobs</a>
+                            <a href="/jobPost/ViewAppliedCandidates" class="btn btn-primary">My Job Posts</a>
                         </div>
                     }
                 }
