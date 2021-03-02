@@ -52,6 +52,13 @@
                             <a href="/jobPost/ViewAppliedCandidates" class="btn btn-primary">My Job Posts</a>
                         </div>
                     }
+
+                    if (this.User.IsInRole("Admin"))
+                    {
+                        <div class="row">
+                            <a href="Admin/Dashboard/Index" class="btn btn-primary">Admin Dashboard</a>
+                        </div>
+                    }
                 }
             </div>
             <div class="col-md-9">
