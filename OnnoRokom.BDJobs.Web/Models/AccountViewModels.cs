@@ -83,6 +83,9 @@ namespace OnnoRokom.BDJobs.Web.Models
         [Required]
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
+
+        [Display(Name = "Request For Employer")]
+        public bool IsEmployerRequest { get; set; }
     }
 
     public class ResetPasswordViewModel

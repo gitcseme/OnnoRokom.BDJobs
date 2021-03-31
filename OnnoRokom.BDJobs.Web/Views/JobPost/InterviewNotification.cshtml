@@ -31,7 +31,7 @@
                     <div class="col author-info">
                         <h3 style="color: black; margin: 0">@notification.EmployerName</h3>
                         <h3>Looking for: <span style="color: blue">@notification.JobTitle</span> </h3>
-                        <p>@notification.Description</p>
+                        <p>@Html.Raw(@notification.Description)</p>
                     </div>
                 </div>
                 <div class="row">

@@ -13,7 +13,7 @@ namespace OnnoRokom.BDJobs.Web.Models.JobModels
         public string JobId { get; set; }
 
         [Required]
-        [Display(Name = "Set Interview Time")]
-        public string Time { get; set; }
+        [Display(Name = "Schedule Time")]
+        public DateTime Time { get; set; }
     }
 }

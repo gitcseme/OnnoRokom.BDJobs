@@ -22,18 +22,21 @@
             </div>
             <div class="row">
                 <div class="col post-description">
-                    <p>@Model.Description</p>
+                    <p>@Html.Raw(@Model.Description)</p>
                 </div>
             </div>
             <div class="row">
 
-                @if (Model.IsAlreadyApplied)
+                @if (!User.IsInRole("Employer"))
                 {
-                    <button type="button" class="btn btn-success btn-lg">Applied</button>
-                }
-                else
-                {
-                    <button type="submit" class="btn btn-info btn-lg">Apply</button>
+                    if (Model.IsAlreadyApplied)
+                    {
+                        <button type="button" class="btn btn-success btn-lg">Applied</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-info btn-lg">Apply</button>
+                    }
                 }
 
             </div>

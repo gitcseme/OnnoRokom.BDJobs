@@ -159,6 +159,12 @@ namespace OnnoRokom.BDJobs.Web.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.FullName };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (model.IsEmployerRequest)
+                {
+                    await _userManager.AddToRoleAsync(user.Id, "Employer");
+                }
+
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);

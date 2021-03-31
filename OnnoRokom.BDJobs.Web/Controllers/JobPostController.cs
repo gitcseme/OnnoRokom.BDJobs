@@ -4,6 +4,7 @@ using OnnoRokom.BDJobs.JobsLib.Services;
 using OnnoRokom.BDJobs.JobsLib.Utilities;
 using OnnoRokom.BDJobs.Web.Models.JobModels;
 using OnnoRokom.BDJobs.Web.SerilogHelper;
+using OnnoRokom.BDJobs.Web.ViewModelValidators;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult ApplyToJob(JobPostViewModel model)
         {
             var loggedinUserId = new Guid(User.Identity.GetUserId());
@@ -108,6 +109,17 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         [HttpPost]
         public ActionResult CreateJobPost(CreateJobPostModel model)
         {
+            JobPostValidator validator = new JobPostValidator();
+            var result = validator.Validate(model);
+            if (!result.IsValid)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.ErrorMessage);
+                }
+                return View(model);
+            }
+
             var loggedinUserId = new Guid(User.Identity.GetUserId());
 
             var job = new Job
@@ -118,7 +130,11 @@ namespace OnnoRokom.BDJobs.Web.Controllers
                 CreationDate = DateTime.Now
             };
 
+            if (job.Description.Length > 15)
+                job.Description = "<b>" + job.Description.Substring(0, 15) + "</b>" + job.Description.Substring(15);
+
             _jobService.Create(job);
+
             _logger.Information($"A new job post is created at {DateTime.Now} with title {job.Title}");
 
             return RedirectToAction("Index");
@@ -235,7 +251,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
 
                 var interviewNotificationModel = new InterviewNotificationViewModel
                 {
-                    InterviewTime = interview.Time,
+                    InterviewTime = interview.Time.ToString(),
                     JobTitle = job.Title,
                     Description = job.Description,
                     EmployerName = employer?.FullName
