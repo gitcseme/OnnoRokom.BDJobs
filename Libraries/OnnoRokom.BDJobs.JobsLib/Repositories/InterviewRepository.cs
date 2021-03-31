@@ -25,7 +25,7 @@ namespace OnnoRokom.BDJobs.JobsLib.Repositories
                 .FirstOrDefault(i => i.JobId == jobId && i.ApplicantId == userId);
 
             bool isInterviewAlreadyFixed = interview != null;
-            string time = isInterviewAlreadyFixed ? interview.Time : "Not set yet";
+            string time = isInterviewAlreadyFixed ? interview.Time.ToString() : "Not set yet";
 
             return (isInterviewAlreadyFixed, time);
         }

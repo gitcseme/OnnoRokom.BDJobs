@@ -65,7 +65,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
         }
 
         [Authorize]
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         public ActionResult ApplyToJob(JobPostViewModel model)
         {
             var loggedinUserId = new Guid(User.Identity.GetUserId());
@@ -251,7 +251,7 @@ namespace OnnoRokom.BDJobs.Web.Controllers
 
                 var interviewNotificationModel = new InterviewNotificationViewModel
                 {
-                    InterviewTime = interview.Time,
+                    InterviewTime = interview.Time.ToString(),
                     JobTitle = job.Title,
                     Description = job.Description,
                     EmployerName = employer?.FullName
