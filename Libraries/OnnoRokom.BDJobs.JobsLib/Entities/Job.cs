@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using NHibernate.Validator.Constraints;
 
 namespace OnnoRokom.BDJobs.JobsLib.Entities
 {
     public class Job : EntityBase<Guid>
     {
         public virtual string Title { get; set; }
+
         public virtual string Description { get; set; }
         public virtual DateTime CreationDate { get; set; }
 
